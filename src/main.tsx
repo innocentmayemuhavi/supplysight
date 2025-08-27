@@ -13,6 +13,18 @@ import { AppProvider } from "./context/index.tsx";
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
 
+// Determine GraphQL server URL based on environment
+const getGraphQLUri = () => {
+  const isDevelopment = import.meta.env.DEV;
+  
+  if (isDevelopment) {
+    return "http://localhost:4000";
+  }
+  
+  // For Vercel production deployment
+  return import.meta.env.VITE_GRAPHQL_URI || "/api/graphql";
+};
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -20,10 +32,11 @@ const routes = createBrowserRouter(
     </>
   )
 );
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: createHttpLink({
-    uri: "http://localhost:4000",
+    uri: getGraphQLUri(),
   }),
 });
 

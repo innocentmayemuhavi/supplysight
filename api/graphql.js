@@ -1,5 +1,5 @@
 import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { gql } from "graphql-tag";
 
 // Sample data
@@ -263,41 +263,8 @@ const server = new ApolloServer({
   resolvers,
 });
 
-const startServer = async () => {
-  const port = process.env.PORT || 4000;
-  const isDevelopment = process.env.NODE_ENV !== "production";
-
-  // CORS configuration for different environments
-  const corsOptions = {
-    origin: isDevelopment
-      ? [
-          "http://localhost:5173",
-          "http://localhost:3000",
-          "http://localhost:4173",
-        ]
-      : [
-          "https://innocentmayemuhavi.github.io",
-          "https://supplysight.vercel.app",
-          // Add any other production domains here
-        ],
-    credentials: false,
-  };
-
-  const { url } = await startStandaloneServer(server, {
-    listen: { port },
-    context: async ({ req }) => ({ req }),
-    cors: corsOptions,
-  });
-
-  console.log(`🚀 Server ready at: ${url}`);
-  console.log(
-    `📊 GraphQL Studio: https://studio.apollographql.com/sandbox/explorer`
-  );
-  console.log(
-    `🌍 Environment: ${isDevelopment ? "Development" : "Production"}`
-  );
-};
-
-startServer().catch((error) => {
-  console.error("Error starting server:", error);
+const handler = startServerAndCreateNextHandler(server, {
+  context: async (req, res) => ({ req, res }),
 });
+
+export default handler;
