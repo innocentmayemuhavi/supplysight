@@ -110,13 +110,16 @@ const ProductsTable = ({
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {products.map((product) => (
+                {products.map((product, index) => (
                   <tr
                     key={product.id}
                     onClick={() => onProductClick(product)}
-                    className={`hover:bg-blue-50 cursor-pointer transition-all duration-200 hover:shadow-sm ${
+                    className={`hover:bg-blue-50 cursor-pointer transition-all duration-200 hover:shadow-sm animate-fade-in ${
                       product.status === Status.CRITICAL ? "bg-red-50/50" : ""
                     }`}
+                    style={{
+                      animationDelay: `${index * 0.1}s`,
+                    }}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>

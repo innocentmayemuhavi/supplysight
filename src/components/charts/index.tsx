@@ -35,11 +35,11 @@ const StockDemandChart = ({ data, loading }: StockDemandChartProps) => {
   }));
 
   return (
-    <div className="bg-white  backdrop-blur-sm rounded-xl  border border-gray-200/50  hover:shadow-sm transition-all duration-300">
+    <div className="bg-white backdrop-blur-sm rounded-xl border border-gray-200/50 hover:shadow-sm transition-all duration-300 animate-fade-in">
       <h3 className="text-lg font-semibold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-4">
         Stock vs Demand Trend
       </h3>
-      <div className="h-80">
+      <div className="h-80 animate-fade-in-delay-1">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}

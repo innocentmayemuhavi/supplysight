@@ -29,7 +29,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white backdrop-blur-[10px] py-2 px-3 shadow-sm  sticky top-0  z-10 ">
+    <header className="bg-white backdrop-blur-[10px] py-2 px-3 shadow-sm sticky top-0 z-10 animate-fade-in">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">

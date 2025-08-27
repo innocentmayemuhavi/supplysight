@@ -35,9 +35,8 @@ const Filters = ({
   };
 
   return (
-    <div className="bg-white backdrop-blur-sm rounded-xl border border-[#f2f4f7] p-6 mb-2 hover:shadow-sm transition-all duration-300">
+    <div className="bg-white backdrop-blur-sm rounded-xl border border-[#f2f4f7] p-6 mb-2 hover:shadow-sm transition-all duration-300 animate-fade-in">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-gray-400" />
@@ -52,7 +51,6 @@ const Filters = ({
           />
         </div>
 
-       
         <div className="relative">
           <select
             value={filters.warehouse || ""}

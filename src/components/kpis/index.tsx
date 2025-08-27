@@ -71,7 +71,18 @@ const KPICards = ({ kpis, loading = false }: KpiCardProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {kpiItems.map((kpi, index) => (
-        <KpiCard key={index} kpi={kpi} />
+        <div
+          key={index}
+          className={`${
+            index === 0
+              ? "animate-fade-in"
+              : index === 1
+              ? "animate-fade-in-delay-1"
+              : "animate-fade-in-delay-2"
+          }`}
+        >
+          <KpiCard kpi={kpi} />
+        </div>
       ))}
     </div>
   );

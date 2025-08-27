@@ -241,7 +241,7 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="page flex flex-col gap-5 overflow-auto">
-        <div className="bg-white rounded-lg p-3 flex flex-col gap-4">
+        <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in">
           <div className="title-mini">Inventory KPI</div>
           <KPICards
             kpis={{
@@ -252,7 +252,7 @@ const Dashboard = () => {
             loading={kpisLoading || productsLoading}
           />
         </div>
-        <div className="bg-white rounded-lg p-3 flex flex-col gap-4">
+        <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in-delay-1">
           <div className="title-mini">Stock vs Demand</div>
           <StockDemandChart
             data={calculatedKPIs.trend}
@@ -260,7 +260,7 @@ const Dashboard = () => {
           />
         </div>
 
-        <div className="bg-white rounded-lg p-3 flex flex-col gap-4">
+        <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in-delay-2">
           <div className="title-mini">Products</div>
           <Filters
             filters={dashboardState.filters}

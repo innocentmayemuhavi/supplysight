@@ -113,7 +113,9 @@ const ProductDrawer = ({
     isOpen ? "translate-x-0" : "translate-x-full"
   }`}
       >
-        <div className="flex flex-col h-full">
+        <div
+          className={`flex flex-col h-full ${isOpen ? "animate-fade-in" : ""}`}
+        >
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-100 rounded-lg">
