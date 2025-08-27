@@ -14,6 +14,8 @@ const ProductDrawer = ({
   onClose,
   onRefresh,
 }: ProductDrawerProps) => {
+  console.log("ProductDrawer rendered:", { product, isOpen }); // Debug log
+
   const [activeTab, setActiveTab] = useState<"details" | "demand" | "transfer">(
     "details"
   );
@@ -38,12 +40,26 @@ const ProductDrawer = ({
   const [updateDemand, { loading: updatingDemand }] = useMutation(
     UPDATE_DEMAND,
     {
-      onCompleted: () => {
-        toast.success("Demand updated successfully!");
+      onCompleted: (data: any) => {
+        const updatedProduct = data?.updateDemand;
+        const newDemand = updatedProduct?.demand || demandValue;
+        toast.success(
+          `✅ Demand updated successfully! New demand: ${newDemand.toLocaleString()} units`,
+          {
+            duration: 4000,
+            icon: "📈",
+          }
+        );
         onRefresh?.();
+        // Auto-close drawer after successful update
+        setTimeout(() => {
+          onClose();
+        }, 2000);
       },
       onError: (error) => {
-        toast.error(`Failed to update demand: ${error.message}`);
+        toast.error(`❌ Failed to update demand: ${error.message}`, {
+          duration: 5000,
+        });
       },
     }
   );
@@ -52,13 +68,27 @@ const ProductDrawer = ({
     TRANSFER_STOCK,
     {
       onCompleted: () => {
-        toast.success("Stock transferred successfully!");
+        toast.success(
+          `🚚 Stock transferred successfully! ${transferQuantity.toLocaleString()} units moved from ${
+            product?.warehouse
+          } to ${toWarehouse}`,
+          {
+            duration: 5000,
+            icon: "📦",
+          }
+        );
         onRefresh?.();
         setTransferQuantity(0);
         setToWarehouse("");
+        // Auto-close drawer after successful transfer
+        setTimeout(() => {
+          onClose();
+        }, 2000);
       },
       onError: (error) => {
-        toast.error(`Failed to transfer stock: ${error.message}`);
+        toast.error(`❌ Failed to transfer stock: ${error.message}`, {
+          duration: 5000,
+        });
       },
     }
   );
@@ -97,25 +127,28 @@ const ProductDrawer = ({
     }
   };
 
-  if (!product) return null;
+  if (!product) {
+    console.log("ProductDrawer: No product provided");
+    return null;
+  }
+
+  console.log("ProductDrawer: Rendering with product:", product.name);
 
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black/5 backdrop-blur-[10px] z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/20 backdrop-blur-[10px] z-[100] transition-opacity duration-300 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
       />
       <div
         className={`fixed right-2 top-2 bottom-2 w-full max-[750px]:top-0 max-[750px]:bottom-0 max-[750px]:right-0
-  max-w-[500px] bg-white shadow-sm z-50 transform transition-transform duration-300 ease-in-out rounded-2xl ${
+  max-w-[500px] bg-white shadow-lg border border-gray-200 z-[101] transform transition-transform duration-300 ease-in-out rounded-2xl ${
     isOpen ? "translate-x-0" : "translate-x-full"
   }`}
       >
-        <div
-          className={`flex flex-col h-full ${isOpen ? "animate-fade-in" : ""}`}
-        >
+        <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-100 rounded-lg">
@@ -198,7 +231,9 @@ const ProductDrawer = ({
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Category
                       </label>
-                      <p className="text-gray-900">{product.category}</p>
+                      <p className="text-gray-900">
+                        {(product as any).category || "Hardware"}
+                      </p>
                     </div>
                   </div>
 
@@ -216,13 +251,17 @@ const ProductDrawer = ({
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Supplier
                       </label>
-                      <p className="text-gray-900">{product.supplier}</p>
+                      <p className="text-gray-900">
+                        {(product as any).supplier || "Supply Co."}
+                      </p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Location
                       </label>
-                      <p className="text-gray-900">{product.location}</p>
+                      <p className="text-gray-900">
+                        {(product as any).location || `${product.warehouse}-01`}
+                      </p>
                     </div>
                   </div>
                 </div>

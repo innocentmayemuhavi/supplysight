@@ -239,52 +239,54 @@ const Dashboard = () => {
   const isLoading = kpisLoading || productsLoading || warehousesLoading;
 
   return (
-    <Layout>
-      <div className="page flex flex-col gap-5 overflow-auto">
-        <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in">
-          <div className="title-mini">Inventory KPI</div>
-          <KPICards
-            kpis={{
-              totalStock: calculatedKPIs.totalStock,
-              totalDemand: calculatedKPIs.totalDemand,
-              fillRate: calculatedKPIs.fillRate,
-            }}
-            loading={kpisLoading || productsLoading}
-          />
-        </div>
-        <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in-delay-1">
-          <div className="title-mini">Stock vs Demand</div>
-          <StockDemandChart
-            data={calculatedKPIs.trend}
-            loading={kpisLoading || productsLoading}
-          />
-        </div>
+    <>
+      <Layout>
+        <div className="page flex flex-col gap-5 overflow-auto">
+          <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in">
+            <div className="title-mini">Inventory KPI</div>
+            <KPICards
+              kpis={{
+                totalStock: calculatedKPIs.totalStock,
+                totalDemand: calculatedKPIs.totalDemand,
+                fillRate: calculatedKPIs.fillRate,
+              }}
+              loading={kpisLoading || productsLoading}
+            />
+          </div>
+          <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in-delay-1">
+            <div className="title-mini">Stock vs Demand</div>
+            <StockDemandChart
+              data={calculatedKPIs.trend}
+              loading={kpisLoading || productsLoading}
+            />
+          </div>
 
-        <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in-delay-2">
-          <div className="title-mini">Products</div>
-          <Filters
-            filters={dashboardState.filters}
-            warehouses={(warehousesData as any)?.warehouses || []}
-            loading={warehousesLoading}
-            onFiltersChange={handleFiltersChange}
-          />
-          <ProductsTable
-            products={(productsData as any)?.products || []}
-            pagination={dashboardState.pagination}
-            loading={isLoading}
-            onProductClick={handleProductClick}
-            onPaginationChange={handlePaginationChange}
-          />
+          <div className="bg-white rounded-lg p-3 flex flex-col gap-4 animate-fade-in-delay-2">
+            <div className="title-mini">Products</div>
+            <Filters
+              filters={dashboardState.filters}
+              warehouses={(warehousesData as any)?.warehouses || []}
+              loading={warehousesLoading}
+              onFiltersChange={handleFiltersChange}
+            />
+            <ProductsTable
+              products={(productsData as any)?.products || []}
+              pagination={dashboardState.pagination}
+              loading={isLoading}
+              onProductClick={handleProductClick}
+              onPaginationChange={handlePaginationChange}
+            />
+          </div>
+          <Toaster position="top-right" reverseOrder={isLoading} />
         </div>
-        <Toaster position="top-right" reverseOrder={isLoading} />
-      </div>
+      </Layout>
       <ProductDrawer
         product={dashboardState.selectedProduct}
         isOpen={dashboardState.isDrawerOpen}
         onClose={handleDrawerClose}
         onRefresh={handleRefreshData}
       />
-    </Layout>
+    </>
   );
 };
 

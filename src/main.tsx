@@ -16,13 +16,12 @@ import { ApolloProvider } from "@apollo/client/react";
 // Determine GraphQL server URL based on environment
 const getGraphQLUri = () => {
   const isDevelopment = import.meta.env.DEV;
-  
+
   if (isDevelopment) {
     return "http://localhost:4000";
   }
-  
-  // For Vercel production deployment
-  return import.meta.env.VITE_GRAPHQL_URI || "/api/graphql";
+
+  return import.meta.env.VITE_GRAPHQL_URI || "http://localhost:4000";
 };
 
 const routes = createBrowserRouter(
